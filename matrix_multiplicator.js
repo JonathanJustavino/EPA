@@ -32,14 +32,16 @@ function multiplyMatrix(matrixA, matrixB) {
     return matrixC;
 }
 
-let dimension = 2;
-let matrixA = createMatrix(dimension)
-let matrixB = createMatrix(dimension)
+for (let i = 100; i < 2000; i += 100) {
+    let matrixA = createMatrix(i);
+    let matrixB = createMatrix(i);
 
-console.log('Matrix A: ')
-printMatrix(matrixA)
-console.log('Matrix B: ')
-printMatrix(matrixB)
-console.log('Matrix A * B: ')
+    let start = Date.now();
 
-printMatrix(multiplyMatrix(matrixA, matrixB))
+    multiplyMatrix(matrixA, matrixB);
+
+    let end = Date.now();
+
+    console.log("n = " + i + '\n' + (end - start) + '\n');
+
+}
