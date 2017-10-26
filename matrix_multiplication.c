@@ -3,16 +3,6 @@
 #include <math.h>
 #include <time.h>
 
-double **createMatrix2(int dim) {
-    double **matrix;
-    matrix = malloc(dim * sizeof(double *));
-    
-    for (int i = 0; i < dim; i++) {
-        matrix[i] = malloc(dim * sizeof(double));
-    }
-    return matrix;
-}
-
 double **createMatrix(int dim) {
     int mem_size = (dim * dim * sizeof(double)) + dim * sizeof(double **);
     
@@ -28,13 +18,6 @@ double **createMatrix(int dim) {
 }
 
 void deleteMatrix(double **matrix, int dim) {
-    free(matrix);
-}
-
-void deleteMatrix2(double **matrix, int dim) {
-    for (int i = 0; i < dim; i++) {
-        free(matrix[i]);
-    }
     free(matrix);
 }
 
@@ -59,11 +42,15 @@ void print(double **matrix, int dim) {
 double **mult(double **matrixA, double **matrixB, int dim) {
     double **matrixC = createMatrix(dim);
     
-    for (int i = 0; i < dim; i++) {
-        for (int j = 0; j < dim; j++) {
-            for (int k = 0; k < dim; k++) {
-                matrixC[i][j] += matrixA[i][k] * matrixB[k][j];
+    for (int i = dim; --i >= 0;) {
+        double *matrix_c_i = matrixC[i];
+        double *matrixA_i = matrixA[i];
+        for (int j = dim; --j >= 0;) {
+            double matrix_c_i_j = 0;
+            for (int k = dim; --k >= 0;) {
+                matrix_c_i_j += matrixA_i[k] * matrixB[k][j];
             }
+            matrix_c_i[j] = matrix_c_i_j;
         }
     }
     return matrixC;
@@ -71,26 +58,6 @@ double **mult(double **matrixA, double **matrixB, int dim) {
 
 int main()
 {
-    
-//    double **matrixA, **matrixB;
-//    matrixA = createMatrix2(2);
-//    matrixB = createMatrix2(2);
-//    int dim = 2;
-//
-//    fill(matrixA, dim, 0);
-//    fill(matrixB, dim, 1);
-//
-//    print(matrixA, dim);
-//    print(matrixB, dim);
-//
-//    double **matrixC = mult(matrixA, matrixB, dim);
-//
-//    print(matrixC, dim);
-//
-//    int time_local = (int)time(NULL);
-//    int time_local2 = (int)time(NULL);
-//
-//    printf("Timestamp: %d\n",(time_local2 - time_local));
     
     for(int i = 100; i < 2000; i+=100) {
         printf("\n Dim = %i \n", i);
