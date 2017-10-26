@@ -1,18 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
-float **createMatrix(int dim) {
-    float **matrix;
-    matrix = malloc(dim * sizeof(float *));
+double **createMatrix2(int dim) {
+    double **matrix;
+    matrix = malloc(dim * sizeof(double *));
     
     for (int i = 0; i < dim; i++) {
-        matrix[i] = malloc(dim * sizeof(float));
+        matrix[i] = malloc(dim * sizeof(double));
     }
     return matrix;
 }
 
-void fill(float **matrix, int dim, int offset) {
+double **createMatrix(int dim) {
+    int mem_size = (dim * dim * sizeof(double)) + dim * sizeof(double **);
+    
+    char *memory = malloc(mem_size);
+    double **matrix = (double **)memory;
+    
+    double *start_pointer = (double *)(memory + dim * (sizeof(double **)));
+    
+    for (int i = 0; i < dim; i++) {
+        matrix[i] = start_pointer + i * dim;
+    }
+    return matrix;
+}
+
+void deleteMatrix(double **matrix, int dim) {
+    free(matrix);
+}
+
+void deleteMatrix2(double **matrix, int dim) {
+    for (int i = 0; i < dim; i++) {
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
+void fill(double **matrix, int dim, int offset) {
     for (int i = 0; i < dim; i++) {
         for (int j = 0; j < dim; j++) {
             matrix[i][j] = fmod(0.1 * (i + j + offset), 1);
@@ -20,7 +46,7 @@ void fill(float **matrix, int dim, int offset) {
     }
 }
 
-void print(float **matrix, int dim) {
+void print(double **matrix, int dim) {
     for (int i = 0; i < dim; i++) {
         for (int j = 0; j < dim; j++) {
             printf("[ %f ]", matrix[i][j]);
@@ -30,8 +56,8 @@ void print(float **matrix, int dim) {
     printf("------------------------\n");
 }
 
-float **mult(float **matrixA, float **matrixB, int dim) {
-    float **matrixC = createMatrix(dim);
+double **mult(double **matrixA, double **matrixB, int dim) {
+    double **matrixC = createMatrix(dim);
     
     for (int i = 0; i < dim; i++) {
         for (int j = 0; j < dim; j++) {
@@ -45,20 +71,54 @@ float **mult(float **matrixA, float **matrixB, int dim) {
 
 int main()
 {
-    float **matrixA, **matrixB;
-    matrixA = createMatrix(2);
-    matrixB = createMatrix(2);
-    int dim = 2;
     
-    fill(matrixA, dim, 0);
-    fill(matrixB, dim, 1);
+//    double **matrixA, **matrixB;
+//    matrixA = createMatrix2(2);
+//    matrixB = createMatrix2(2);
+//    int dim = 2;
+//
+//    fill(matrixA, dim, 0);
+//    fill(matrixB, dim, 1);
+//
+//    print(matrixA, dim);
+//    print(matrixB, dim);
+//
+//    double **matrixC = mult(matrixA, matrixB, dim);
+//
+//    print(matrixC, dim);
+//
+//    int time_local = (int)time(NULL);
+//    int time_local2 = (int)time(NULL);
+//
+//    printf("Timestamp: %d\n",(time_local2 - time_local));
     
-    print(matrixA, dim);
-    print(matrixB, dim);
-    
-    float **matrixC = mult(matrixA, matrixB, dim);
-    
-    print(matrixC, dim);
+    for(int i = 100; i < 2000; i+=100) {
+        printf("\n Dim = %i \n", i);
+        double **matrixA, **matrixB;
+        
+        clock_t time_create_start = clock();
+        
+        matrixA = createMatrix(i);
+        matrixB = createMatrix(i);
+
+        clock_t time_create_end = clock();
+        
+        fill(matrixA, i, 0);
+        fill(matrixB, i, 1);
+
+        clock_t time_start = clock();
+
+        double **matrixC = mult(matrixA, matrixB, i);
+
+        clock_t time_end = clock();
+
+        printf("Calc_Time: %f s \n", ((float)(time_end - time_start)) / 1000000);
+        
+        deleteMatrix(matrixA, i);
+        deleteMatrix(matrixB, i);
+        deleteMatrix(matrixC, i);
+
+    }
     
     return 0;
 }
