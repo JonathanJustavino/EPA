@@ -38,7 +38,7 @@ function multiplyMatrix(matrixA, matrixB) {
     return matrixC;
 }
 
-for (let i = 100; i < 2000; i += 100) {
+for (let i = 100; i <= 2000; i += 100) {
     let matrixA = createMatrix(i);
     let matrixB = createMatrix(i);
 
