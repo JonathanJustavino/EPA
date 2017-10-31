@@ -41,8 +41,8 @@ public class MatrixMultiplicator {
             }
             start = System.nanoTime();
             multiplicate(matrixA, matrixB);
-            elapsedTime = ((float)(System.nanoTime() - start))/1000;
-            System.out.println(elapsedTime);
+            elapsedTime = (System.nanoTime() - start)/1000;
+            System.out.println("Dim = " + n + "Time: " + elapsedTime);
         }
     }
 
