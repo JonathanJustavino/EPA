@@ -41,7 +41,7 @@ public class MatrixMultiplicator {
             }
             start = System.nanoTime();
             multiplicate(matrixA, matrixB);
-            elapsedTime = System.nanoTime() - start;
+            elapsedTime = ((float)(System.nanoTime() - start))/1000;
             System.out.println(elapsedTime);
         }
     }
