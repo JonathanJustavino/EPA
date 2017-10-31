@@ -59,7 +59,13 @@ double **mult(double **matrixA, double **matrixB, int dim) {
 int main()
 {
     
-    for(int i = 100; i < 2000; i+=100) {
+    FILE *fp;
+    int file;
+    
+    fp = fopen("Ausfuerungszeit_C.txt", "w+");
+    
+    
+    for(int i = 100; i <= 2000; i+=100) {
         printf("\n Dim = %i \n", i);
         double **matrixA, **matrixB;
         
@@ -78,14 +84,22 @@ int main()
         double **matrixC = mult(matrixA, matrixB, i);
 
         clock_t time_end = clock();
+        
+        float time_total = ((float)(time_end - time_start) / 1000000);
 
-        printf("Calc_Time: %f s \n", ((float)(time_end - time_start)) / 1000000);
+        //printf("Calc_Time: %f s \n", ((float)(time_end - time_start)) / 1000000);
+        
+        printf("Calc_Time: %f s \n", time_total);
+        
+        fprintf(fp, "Dim = %i, Time: %f \n", i, time_total);
         
         deleteMatrix(matrixA, i);
         deleteMatrix(matrixB, i);
         deleteMatrix(matrixC, i);
 
     }
+    
+    fclose(fp);
     
     return 0;
 }
