@@ -28,7 +28,8 @@ public class MatrixMultiplicator {
 
     public static void main(String[] args) {
         float[][] matrixA, matrixB;
-        long start, elapsedTime;
+        long start;
+        double elapsedTime;
 
         for (int n = 100; n < 2000; n = n + 100) {
             matrixA = new float[n][n];
@@ -39,10 +40,10 @@ public class MatrixMultiplicator {
                     matrixB[j][k] = (float) Math.random();
                 }
             }
-            start = System.nanoTime();
+            start = System.currentTimeMillis();
             multiplicate(matrixA, matrixB);
-            elapsedTime = (System.nanoTime() - start)/1000;
-            System.out.println("Dim = " + n + "Time: " + elapsedTime);
+            elapsedTime = ((double)(System.currentTimeMillis() - start))/1000;
+            System.out.println("Dim = " + n + " Time: " + elapsedTime + " s");
         }
     }
 
