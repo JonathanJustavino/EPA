@@ -12,8 +12,7 @@ program multiplicate
 	implicit none
 	integer :: n, i ,j, k
     double precision, dimension(:,:),allocatable :: matrix1, matrix2, matrix3
-   	integer ( kind = 4 ) mm, mm2, m, m2, s, s2
-	integer values(8), values2(8)
+    real :: start, finish
 
 	do n = 100, 2000, 100
 		allocate(matrix1(n,n))
@@ -28,7 +27,7 @@ program multiplicate
         	end do
     	end do
     
-		call date_and_time(values = values)
+		call cpu_time(start)
 		do i = 1, n
     		do j = 1, n
         		do k = 1, n
@@ -36,18 +35,10 @@ program multiplicate
             	end do
         	end do
     	end do
-    	call date_and_time(values = values2)
-		m = values(6)
-  		s = values(7)
-  		mm = values(8)
-
-	  	m2 = values2(6)
-  		s2 = values2(7)
-  		mm2 = values2(8)
-	
-    	write (*,*) 'diff minutes', m2 - m
-    	write (*,*) 'diff seconds', s2 - s
-    	write (*,*) 'diff milliseconds', mm2 - mm
+    	call cpu_time(finish)
+		
+        write (*,*) 'n = ', n
+		print '("Time = ",f6.3," seconds.")',finish-start
     	deallocate(matrix1)
         deallocate(matrix2)
         deallocate(matrix3)
