@@ -35,7 +35,7 @@ public class MatrixMultiplicator {
         long start;
         double elapsedTime;
 
-        for (int n = 100; n < 2000; n = n + 100) {
+        for (int n = 100; n <= 2000; n = n + 100) {
             matrixA = new float[n][n];
             matrixB = new float[n][n];
             for (int j = 0; j < n; j++) {
