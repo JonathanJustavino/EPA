@@ -15,15 +15,19 @@ public class MatrixMultiplicator {
 
     public static float[][] multiplicate(float[][] matrixA, float[][] matrixB) {
         int size = matrixA[0].length;
-        float[][] result = new float[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                for (int k = 0; k < size; k++) {
-                    result[i][j] += matrixA[i][k] * matrixB[k][j];
+        float[][] matrixC = new float[size][size];
+        for (int i = size; --i >= 0;) {
+            float[] matrixA_i = matrixA[i];
+            float[] matrixC_i = matrixC[i];
+            for (int j = size; --j >= 0;) {
+                float matrixC_i_j = 0;
+                for (int k = size; --k >= 0;) {
+                    matrixC_i_j += matrixA[i][k] * matrixB[k][j];
                 }
+                matrixC_i[j] = matrixC_i_j;
             }
         }
-        return result;
+        return matrixC;
     }
 
     public static void main(String[] args) {
