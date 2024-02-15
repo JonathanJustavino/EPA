@@ -132,6 +132,6 @@ render(javascript_performance, dimensions, '#fcad40', 'JavaScript')
 
 plt.axis([0, 200, 100, 2100])
 plt.ylabel('Dimension')
-plt.xlabel('Time')
+plt.xlabel('Time in s')
 plt.legend()
 plt.show()
